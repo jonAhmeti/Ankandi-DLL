@@ -1,0 +1,49 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Auction.BLL/1.0.0": {
+        "dependencies": {
+          "Auction.DAL": "1.0.0"
+        },
+        "runtime": {
+          "Auction.BLL.dll": {}
+        }
+      },
+      "Auction.BO/1.0.0": {
+        "runtime": {
+          "Auction.BO.dll": {}
+        }
+      },
+      "Auction.DAL/1.0.0": {
+        "dependencies": {
+          "Auction.BO": "1.0.0"
+        },
+        "runtime": {
+          "Auction.DAL.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Auction.BLL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Auction.BO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Auction.DAL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
