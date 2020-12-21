@@ -10,13 +10,14 @@ namespace Auction.DAL
     {
         static DbContext()
         {
-            var configBuilder = new ConfigurationBuilder();
-            var path = Path.Combine(
-                Directory.GetCurrentDirectory(), "appsettings.json");
-            configBuilder.AddJsonFile(path, false);
-            var appSettings = configBuilder.Build()
-                .GetSection("ConnectionStrings:Auction");
-            ConnectionString = appSettings.Value;
+            //var configBuilder = new ConfigurationBuilder();
+            //var path = Path.Combine(
+            //    Directory.GetCurrentDirectory(), "appsettings.json");
+            //configBuilder.AddJsonFile(path, false);
+            //var appSettings = configBuilder.Build()
+            //    .GetSection("ConnectionStrings:Auction");
+            //ConnectionString = appSettings.Value;
+            ConnectionString = "Data Source=DESKTOP-8ONQ3QC;Initial Catalog=Auction;User ID=bruh;Password=bruh;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         }
 
         private static readonly string ConnectionString;

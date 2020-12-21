@@ -28,7 +28,6 @@ namespace Auction.DAL
                         command.Parameters.AddWithValue("@Name", obj.Name);
                         command.Parameters.AddWithValue("@Units", obj.MeasurementUnits);
                         command.Parameters.AddWithValue("@Amount", obj.Amount);
-                        command.Parameters.AddWithValue("@Sold", obj.Sold);
 
                         return await command.ExecuteNonQueryAsync() != -1;
                     }
@@ -128,7 +127,6 @@ namespace Auction.DAL
                         command.Parameters.AddWithValue("@Name", obj.Name);
                         command.Parameters.AddWithValue("@Units", obj.MeasurementUnits);
                         command.Parameters.AddWithValue("@Amount", obj.Amount);
-                        command.Parameters.AddWithValue("@Sold", obj.Sold);
 
                         return await command.ExecuteNonQueryAsync() != -1;
                     }
@@ -147,41 +145,42 @@ namespace Auction.DAL
 
             while (await reader.ReadAsync())
             {
-                BO.Item obj = new BO.Item();
+                BO.Item obj = new BO.Item
+                {
+                    Id = int.Parse(reader["Id"].ToString()),
+                    StartPrice = decimal.Parse(reader["StartPrice"].ToString()),
+                    Details = reader["Details"].ToString(),
+                    SoldPrice = reader["SoldPrice"] == DBNull.Value
+                        ? -1
+                        : decimal.Parse(reader["SoldPrice"].ToString()),
+                    SoldDate = reader["SoldDate"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : DateTime.Parse(reader["SoldDate"].ToString()),
+                    Name = reader["Name"].ToString(),
+                    MeasurementUnits = reader["MeasurementUnits"].ToString(),
+                    Amount = double.Parse(reader["Amount"].ToString()),
+                    InD = reader["InD"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : DateTime.Parse(reader["InD"].ToString()),
+                    Lud = reader["LUD"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : DateTime.Parse(reader["LUD"].ToString()),
+                    Lun = reader["LUN"] == DBNull.Value
+                        ? -1
+                        : int.Parse(reader["LUN"].ToString()),
+                    Image = reader["Image"] == DBNull.Value
+                        ? ""
+                        : reader["Image"].ToString()
+                };
 
-                obj.Id = int.Parse(reader["Id"].ToString());
-                obj.StartPrice = decimal.Parse(reader["StartPrice"].ToString());
-                obj.Details = reader["Details"].ToString();
 
-                obj.SoldPrice = reader["SoldPrice"] == DBNull.Value
-                    ? -1
-                    : decimal.Parse(reader["SoldPrice"].ToString());
 
-                obj.SoldDate = reader["SoldDate"] == DBNull.Value
-                    ? DateTime.MinValue
-                    : DateTime.Parse(reader["SoldDate"].ToString());
 
-                obj.Name = reader["Name"].ToString();
-                obj.MeasurementUnits = reader["MeasurementUnits"].ToString();
-                obj.Amount = double.Parse(reader["Amount"].ToString());
 
-                obj.Sold = reader["Sold"] != DBNull.Value && bool.Parse(reader["Sold"].ToString());
-                
-                obj.InD = reader["InD"] == DBNull.Value
-                    ? DateTime.MinValue
-                    : DateTime.Parse(reader["InD"].ToString());
 
-                obj.Lud = reader["LUD"] == DBNull.Value
-                    ? DateTime.MinValue
-                    : DateTime.Parse(reader["LUD"].ToString());
 
-                obj.Lun = reader["LUN"] == DBNull.Value
-                    ? -1
-                    : int.Parse(reader["LUN"].ToString());
 
-                obj.Image = reader["Image"] == DBNull.Value
-                    ? ""
-                    : reader["Image"].ToString();
+
 
                 objects.Add(obj);
             }

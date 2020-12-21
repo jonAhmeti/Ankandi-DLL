@@ -9,26 +9,21 @@ using Microsoft.Data.SqlClient;
 
 namespace Auction.DAL
 {
-    public class Events : ICrud<BO.Event>
+    public class AuctionData: ICrud<BO.AuctionData>
     {
-        public async Task<bool> AddAsync(BO.Event obj)
+        public async Task<bool> AddAsync(BO.AuctionData obj)
         {
             try
             {
                 await using (SqlConnection connection = await DbContext.GetConnection())
                 {
-                    await using (SqlCommand command = new SqlCommand("AddEvent", connection)
+                    await using (SqlCommand command = new SqlCommand("AddAuctionData", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     })
                     {
                         command.Parameters.AddWithValue("@StartDate", obj.StartDate);
                         command.Parameters.AddWithValue("@EndDate", obj.EndDate);
-                        command.Parameters.AddWithValue("@TopBidder", obj.TopBidder);
-                        command.Parameters.AddWithValue("@CurrentPrice", obj.CurrentPrice);
-                        command.Parameters.AddWithValue("@MinPriceIncrementAmount", obj.MinPriceIncrementAmount);
-                        command.Parameters.AddWithValue("@ItemId", obj.ItemId);
-                        command.Parameters.AddWithValue("@AuctionId", obj.AuctionId);
 
                         return await command.ExecuteNonQueryAsync() != -1;
                     }
@@ -47,7 +42,7 @@ namespace Auction.DAL
             {
                 await using (SqlConnection connection = await DbContext.GetConnection())
                 {
-                    await using (SqlCommand command = new SqlCommand("DeleteByIdEvent", connection)
+                    await using (SqlCommand command = new SqlCommand("DeleteByIdAuctionData", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     })
@@ -65,13 +60,13 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<BO.Event> GetAsync(int objId)
+        public async Task<BO.AuctionData> GetAsync(int objId)
         {
             try
             {
                 await using (SqlConnection connection = await DbContext.GetConnection())
                 {
-                    await using (SqlCommand command = new SqlCommand("GetByIdEvent", connection)
+                    await using (SqlCommand command = new SqlCommand("GetByIdAuctionData", connection)
                     { CommandType = CommandType.StoredProcedure })
                     {
                         command.Parameters.AddWithValue("@Id", objId);
@@ -88,13 +83,13 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<IEnumerable<BO.Event>> GetAllAsync()
+        public async Task<IEnumerable<BO.AuctionData>> GetAllAsync()
         {
             try
             {
                 await using (SqlConnection connection = await DbContext.GetConnection())
                 {
-                    await using (SqlCommand command = new SqlCommand("GetListEvents", connection)
+                    await using (SqlCommand command = new SqlCommand("GetListAuctionData", connection)
                     { CommandType = CommandType.StoredProcedure })
                     {
                         await using SqlDataReader reader = command.ExecuteReader();
@@ -109,13 +104,13 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<bool> UpdateAsync(BO.Event obj)
+        public async Task<bool> UpdateAsync(BO.AuctionData obj)
         {
             try
             {
                 await using (SqlConnection connection = await DbContext.GetConnection())
                 {
-                    await using (SqlCommand command = new SqlCommand("EditEvent", connection)
+                    await using (SqlCommand command = new SqlCommand("EditAuctionData", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     })
@@ -123,11 +118,6 @@ namespace Auction.DAL
                         command.Parameters.AddWithValue("@Id", obj.Id);
                         command.Parameters.AddWithValue("@StartDate", obj.StartDate);
                         command.Parameters.AddWithValue("@EndDate", obj.EndDate);
-                        command.Parameters.AddWithValue("@TopBidder", obj.TopBidder);
-                        command.Parameters.AddWithValue("@CurrentPrice", obj.CurrentPrice);
-                        command.Parameters.AddWithValue("@MinPriceIncrementAmount", obj.MinPriceIncrementAmount);
-                        command.Parameters.AddWithValue("@ItemId", obj.ItemId);
-                        command.Parameters.AddWithValue("@AuctionId", obj.AuctionId);
 
                         return await command.ExecuteNonQueryAsync() != -1;
                     }
@@ -140,48 +130,25 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<List<BO.Event>> ConvertToObj(SqlDataReader reader)
+        public async Task<List<BO.AuctionData>> ConvertToObj(SqlDataReader reader)
         {
-            List<BO.Event> objects = new List<BO.Event>();
+            List<BO.AuctionData> objects = new List<BO.AuctionData>();
 
             while (await reader.ReadAsync())
             {
-                BO.Event obj = new BO.Event
+                BO.AuctionData obj = new BO.AuctionData
                 {
                     Id = int.Parse(reader["Id"].ToString()),
+                    NoItemsSold = int.Parse(reader["NoItemsSold"].ToString()),
+
                     StartDate = reader["StartDate"] == DBNull.Value
-                        ? new DateTime?()
-                        : DateTime.Parse(reader["StartDate"].ToString()),
+                    ? new DateTime?()
+                    : DateTime.Parse(reader["StartDate"].ToString()),
+
                     EndDate = reader["EndDate"] == DBNull.Value
-                        ? new DateTime?()
-                        : DateTime.Parse(reader["EndDate"].ToString()),
-                    Lun = reader["LUN"] == DBNull.Value
-                        ? new int?()
-                        : int.Parse(reader["LUN"].ToString()),
-                    Lud = reader["LUD"] == DBNull.Value
-                        ? new DateTime?()
-                        : DateTime.Parse(reader["LUD"].ToString()),
-                    TopBidder = reader["TopBidder"] == DBNull.Value
-                        ? new int?()
-                        : int.Parse(reader["TopBidder"].ToString()),
-                    CurrentPrice = decimal.Parse(reader["CurrentPrice"].ToString()),
-                    MinPriceIncrementAmount = decimal.Parse(reader["MinPriceIncrementAmount"].ToString()),
-                    ItemId = reader["ItemId"] == DBNull.Value
-                        ? -1
-                        : int.Parse(reader["ItemId"].ToString()),
-                    AuctionId = reader["AuctionId"] == DBNull.Value
-                        ? -1
-                        : int.Parse(reader["AuctionId"].ToString())
+                    ? new DateTime?()
+                    : DateTime.Parse(reader["EndDate"].ToString())
                 };
-
-
-
-
-
-
-
-
-
 
                 objects.Add(obj);
             }
