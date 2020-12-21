@@ -7,7 +7,7 @@ using Auction.BO.Interfaces;
 
 namespace Auction.BLL
 {
-    class Items : ICrud<BO.Item>
+    public class Items : ICrud<BO.Item>
     {
         private readonly DAL.Items dalItems = new DAL.Items();
 

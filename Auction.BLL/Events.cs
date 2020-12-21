@@ -7,7 +7,7 @@ using Auction.BO.Interfaces;
 
 namespace Auction.BLL
 {
-    class Events : ICrud<BO.Event>
+    public class Events : ICrud<BO.Event>
     {
         private readonly DAL.Events dalEvents = new DAL.Events();
         public async Task<bool> AddAsync(Event obj)
