@@ -34,5 +34,10 @@ namespace Auction.BLL
         {
             return await dalEvents.GetAllAsync();
         }
+
+        public async Task<IEnumerable<Event>> GetAllByAuctionId(int objId)
+        {
+            return await dalEvents.GetAllByAuctionId(objId);
+        }
     }
 }
