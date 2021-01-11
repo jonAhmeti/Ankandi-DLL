@@ -109,6 +109,28 @@ namespace Auction.DAL
             }
         }
 
+        public async Task<IEnumerable<BO.Event>> GetAllByAuctionId(int objId)
+        {
+            try
+            {
+                await using (SqlConnection connection = await DbContext.GetConnection())
+                {
+                    await using (SqlCommand command = new SqlCommand("GetListEventsByAuctionId", connection)
+                        { CommandType = CommandType.StoredProcedure })
+                    {
+                        command.Parameters.AddWithValue("@AuctionId", objId);
+                        await using SqlDataReader reader = command.ExecuteReader();
+                        return await ConvertToObj(reader);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         public async Task<bool> UpdateAsync(BO.Event obj)
         {
             try
@@ -149,15 +171,9 @@ namespace Auction.DAL
                 BO.Event obj = new BO.Event
                 {
                     Id = int.Parse(reader["Id"].ToString()),
-                    StartDate = reader["StartDate"] == DBNull.Value
-                        ? new DateTime?()
-                        : DateTime.Parse(reader["StartDate"].ToString()),
-                    EndDate = reader["EndDate"] == DBNull.Value
-                        ? new DateTime?()
-                        : DateTime.Parse(reader["EndDate"].ToString()),
-                    Lun = reader["LUN"] == DBNull.Value
-                        ? new int?()
-                        : int.Parse(reader["LUN"].ToString()),
+                    StartDate = DateTime.Parse(reader["StartDate"].ToString()),
+                    EndDate = DateTime.Parse(reader["EndDate"].ToString()),
+                    Lun = int.Parse(reader["LUN"].ToString()),
                     Lud = reader["LUD"] == DBNull.Value
                         ? new DateTime?()
                         : DateTime.Parse(reader["LUD"].ToString()),
@@ -166,22 +182,9 @@ namespace Auction.DAL
                         : int.Parse(reader["TopBidder"].ToString()),
                     CurrentPrice = decimal.Parse(reader["CurrentPrice"].ToString()),
                     MinPriceIncrementAmount = decimal.Parse(reader["MinPriceIncrementAmount"].ToString()),
-                    ItemId = reader["ItemId"] == DBNull.Value
-                        ? -1
-                        : int.Parse(reader["ItemId"].ToString()),
-                    AuctionId = reader["AuctionId"] == DBNull.Value
-                        ? -1
-                        : int.Parse(reader["AuctionId"].ToString())
+                    ItemId = int.Parse(reader["ItemId"].ToString()),
+                    AuctionId = int.Parse(reader["AuctionId"].ToString())
                 };
-
-
-
-
-
-
-
-
-
 
                 objects.Add(obj);
             }

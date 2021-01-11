@@ -39,7 +39,7 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<List<BO.BidHistory>> GetAllFromEventAsync(BO.BidHistory obj)
+        public async Task<List<BO.BidHistory>> GetAllFromAuctionEventAsync(BO.BidHistory obj)
         {
             try
             {
@@ -63,29 +63,44 @@ namespace Auction.DAL
             }
         }
 
+        public async Task<BO.BidHistory> GetLatestUserBid(int userId, int auctionId, int eventId)
+        {
+            try
+            {
+                await using (SqlConnection connection = await DbContext.GetConnection())
+                {
+                    await using (SqlCommand command = new SqlCommand("GetLatestUserBid", connection)
+                        { CommandType = CommandType.StoredProcedure })
+                    {
+                        command.Parameters.AddWithValue("@UserId", userId);
+                        command.Parameters.AddWithValue("@AuctionId", auctionId);
+                        command.Parameters.AddWithValue("@EventId", eventId);
+
+                        await using SqlDataReader reader = command.ExecuteReader();
+                        return (await ConvertToObj(reader)).FirstOrDefault();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         public async Task<List<BO.BidHistory>> ConvertToObj(SqlDataReader reader)
         {
-            List<BO.BidHistory> objects = new List<BO.BidHistory>();
+            var objects = new List<BO.BidHistory>();
 
             while (await reader.ReadAsync())
             {
                 BO.BidHistory obj = new BO.BidHistory
                 {
                     Id = int.Parse(reader["Id"].ToString()),
-                    
-                    BidDate = reader["BidDate"] == DBNull.Value 
-                        ? new DateTime?()
-                        : DateTime.Parse(reader["BidDate"].ToString()),
-
-                    BidAmount = decimal.Parse(reader["BidDate"].ToString()),
-
-                    EventId = reader["EventId"] == DBNull.Value
-                        ? new int?()
-                        : int.Parse(reader["EventId"].ToString()),
-                    AuctionId = reader["AuctionId"] == DBNull.Value
-                        ? new int?()
-                        : int.Parse(reader["AuctionId"].ToString()),
-
+                    BidDate = DateTime.Parse(reader["BidDate"].ToString()),
+                    BidAmount = decimal.Parse(reader["BidAmount"].ToString()),
+                    EventId = int.Parse(reader["EventId"].ToString()),
+                    AuctionId = int.Parse(reader["AuctionId"].ToString()),
                     UserId = int.Parse(reader["UserId"].ToString())
                 };
 

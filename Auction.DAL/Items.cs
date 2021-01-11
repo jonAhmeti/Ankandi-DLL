@@ -28,6 +28,8 @@ namespace Auction.DAL
                         command.Parameters.AddWithValue("@Name", obj.Name);
                         command.Parameters.AddWithValue("@Units", obj.MeasurementUnits);
                         command.Parameters.AddWithValue("@Amount", obj.Amount);
+                        command.Parameters.AddWithValue("@Image", obj.Image);
+                        command.Parameters.AddWithValue("@InD", obj.InD);
 
                         return await command.ExecuteNonQueryAsync() != -1;
                     }
@@ -120,15 +122,17 @@ namespace Auction.DAL
                     })
                     {
                         command.Parameters.AddWithValue("@Id", obj.Id);
-                        command.Parameters.AddWithValue("@StartPrice", obj.StartPrice);
-                        command.Parameters.AddWithValue("@Details", obj.Details);
-                        command.Parameters.AddWithValue("@SoldPrice", obj.SoldPrice);
-                        command.Parameters.AddWithValue("@SoldDate", obj.SoldDate);
                         command.Parameters.AddWithValue("@Name", obj.Name);
+                        command.Parameters.AddWithValue("@StartPrice", obj.StartPrice);
                         command.Parameters.AddWithValue("@Units", obj.MeasurementUnits);
                         command.Parameters.AddWithValue("@Amount", obj.Amount);
+                        command.Parameters.AddWithValue("@SoldDate", obj.SoldDate);
+                        command.Parameters.AddWithValue("@SoldPrice", obj.SoldPrice);
+                        command.Parameters.AddWithValue("@Image", obj.Image);
+                        command.Parameters.AddWithValue("@Details", obj.Details);
 
-                        return await command.ExecuteNonQueryAsync() != -1;
+                        var result = await command.ExecuteNonQueryAsync();
+                        return result > 0;
                     }
                 }
             }
@@ -148,39 +152,25 @@ namespace Auction.DAL
                 BO.Item obj = new BO.Item
                 {
                     Id = int.Parse(reader["Id"].ToString()),
-                    StartPrice = decimal.Parse(reader["StartPrice"].ToString()),
-                    Details = reader["Details"].ToString(),
-                    SoldPrice = reader["SoldPrice"] == DBNull.Value
-                        ? -1
-                        : decimal.Parse(reader["SoldPrice"].ToString()),
-                    SoldDate = reader["SoldDate"] == DBNull.Value
-                        ? DateTime.MinValue
-                        : DateTime.Parse(reader["SoldDate"].ToString()),
                     Name = reader["Name"].ToString(),
+                    StartPrice = decimal.Parse(reader["StartPrice"].ToString()),
                     MeasurementUnits = reader["MeasurementUnits"].ToString(),
                     Amount = double.Parse(reader["Amount"].ToString()),
-                    InD = reader["InD"] == DBNull.Value
-                        ? DateTime.MinValue
-                        : DateTime.Parse(reader["InD"].ToString()),
-                    Lud = reader["LUD"] == DBNull.Value
-                        ? DateTime.MinValue
-                        : DateTime.Parse(reader["LUD"].ToString()),
-                    Lun = reader["LUN"] == DBNull.Value
-                        ? -1
-                        : int.Parse(reader["LUN"].ToString()),
-                    Image = reader["Image"] == DBNull.Value
-                        ? ""
-                        : reader["Image"].ToString()
+                    SoldDate = reader["SoldDate"] == DBNull.Value ?
+                        new DateTime?() : DateTime.Parse(reader["SoldDate"].ToString()),
+                    SoldPrice = reader["SoldPrice"] == DBNull.Value ?
+                        new decimal?() : decimal.Parse(reader["SoldPrice"].ToString()),
+                    Image = reader["Image"] == DBNull.Value ?
+                        "" : reader["Image"].ToString(),
+                    Details = reader["Details"].ToString(),
+                    InD = reader["InD"] == DBNull.Value ?
+                        new DateTime?() : DateTime.Parse(reader["InD"].ToString()),
+                    Lud = reader["LUD"] == DBNull.Value ?
+                        new DateTime?() : DateTime.Parse(reader["LUD"].ToString()),
+                    Lun = reader["LUN"] == DBNull.Value ?
+                        new int?() : int.Parse(reader["LUN"].ToString()),
+
                 };
-
-
-
-
-
-
-
-
-
 
                 objects.Add(obj);
             }
