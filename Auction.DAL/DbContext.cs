@@ -1,32 +1,30 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
 namespace Auction.DAL
 {
-    public static class DbContext
+    public class DbContext
     {
-        static DbContext()
+        private readonly string _connectionString;
+        public DbContext(IConfiguration config)
         {
-            //var configBuilder = new ConfigurationBuilder();
-            //var path = Path.Combine(
-            //    Directory.GetCurrentDirectory(), "appsettings.json");
-            //configBuilder.AddJsonFile(path, false);
-            //var appSettings = configBuilder.Build()
-            //    .GetSection("ConnectionStrings:Auction");
-            //ConnectionString = appSettings.Value;
-            ConnectionString = "Data Source=DESKTOP-8ONQ3QC;Initial Catalog=Auction;User ID=bruh;Password=bruh;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+            _connectionString = config.GetSection("ConnectionStrings:Auction").Value;
+
+            //ConnectionString =
+            //    "Data Source=SQL5085.site4now.net;Initial Catalog=db_a76491_auction;User Id=db_a76491_auction_admin;Password=passwo0rd";
         }
 
-        private static readonly string ConnectionString;
 
-        public static async Task<SqlConnection> GetConnection()
+        public async Task<SqlConnection> GetConnection()
         {
             try
             {
-                SqlConnection connection = new SqlConnection(ConnectionString);
+                SqlConnection connection = new SqlConnection(_connectionString);
                 await connection.OpenAsync();
                 return connection;
             }

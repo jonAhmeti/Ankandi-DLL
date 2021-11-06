@@ -10,11 +10,17 @@ namespace Auction.DAL
 {
     public class Items : ICrud<BO.Item>
     {
+        private readonly DbContext _context;
+
+        public Items(DbContext context)
+        {
+            _context = context;
+        }
         public async Task<bool> AddAsync(BO.Item obj)
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("AddItem", connection)
                     {
@@ -46,7 +52,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("DeleteByIdItem", connection)
                     {
@@ -70,7 +76,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("GetByIdItem", connection)
                     { CommandType = CommandType.StoredProcedure })
@@ -93,7 +99,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("GetListItems", connection)
                     { CommandType = CommandType.StoredProcedure })
@@ -114,7 +120,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("EditItem", connection)
                     {
@@ -155,7 +161,7 @@ namespace Auction.DAL
                     Name = reader["Name"].ToString(),
                     StartPrice = decimal.Parse(reader["StartPrice"].ToString()),
                     MeasurementUnits = reader["MeasurementUnits"].ToString(),
-                    Amount = double.Parse(reader["Amount"].ToString()),
+                    Amount = int.Parse(reader["Amount"].ToString()),
                     SoldDate = reader["SoldDate"] == DBNull.Value ?
                         new DateTime?() : DateTime.Parse(reader["SoldDate"].ToString()),
                     SoldPrice = reader["SoldPrice"] == DBNull.Value ?

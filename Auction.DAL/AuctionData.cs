@@ -11,11 +11,17 @@ namespace Auction.DAL
 {
     public class AuctionData: ICrud<BO.AuctionData>
     {
+        private readonly DbContext _context;
+
+        public AuctionData(DbContext context)
+        {
+            _context = context;
+        }
         public async Task<bool> AddAsync(BO.AuctionData obj)
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("AddAuctionData", connection)
                     {
@@ -40,7 +46,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("DeleteByIdAuctionData", connection)
                     {
@@ -64,7 +70,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("GetByIdAuctionData", connection)
                     { CommandType = CommandType.StoredProcedure })
@@ -87,7 +93,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("GetListAuctionData", connection)
                     { CommandType = CommandType.StoredProcedure })
@@ -108,7 +114,7 @@ namespace Auction.DAL
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("EditAuctionData", connection)
                     {
@@ -139,15 +145,15 @@ namespace Auction.DAL
                 BO.AuctionData obj = new BO.AuctionData
                 {
                     Id = int.Parse(reader["Id"].ToString()),
-                    NoItemsSold = int.Parse(reader["NoItemsSold"].ToString()),
 
-                    StartDate = reader["StartDate"] == DBNull.Value
-                    ? new DateTime?()
-                    : DateTime.Parse(reader["StartDate"].ToString()),
+                    StartDate = DateTime.Parse(reader["StartDate"].ToString()),
 
-                    EndDate = reader["EndDate"] == DBNull.Value
-                    ? new DateTime?()
-                    : DateTime.Parse(reader["EndDate"].ToString())
+                    EndDate = DateTime.Parse(reader["EndDate"].ToString())
+
+                    //
+                    //EndDate = reader["EndDate"] == DBNull.Value
+                    //? new DateTime?()
+                    //: DateTime.Parse(reader["EndDate"].ToString())
                 };
 
                 objects.Add(obj);

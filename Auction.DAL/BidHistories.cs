@@ -11,11 +11,17 @@ namespace Auction.DAL
 {
     public class BidHistories
     {
-        public async Task<bool> AddAsync(BO.BidHistory obj)
+        private readonly DbContext _context;
+
+        public BidHistories(DbContext context)
+        {
+            _context = context;
+        }
+        public async Task<bool> AddAsync(BO.Bids obj)
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("AddBid", connection)
                     {
@@ -39,17 +45,38 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<List<BO.BidHistory>> GetAllFromAuctionEventAsync(BO.BidHistory obj)
+        public async Task<List<BO.Bids>> GetActiveAuctionBidHistory()
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
+                {
+                    await using (SqlCommand command = new SqlCommand("GetActiveAuctionBidHistory", connection)
+                        { CommandType = CommandType.StoredProcedure })
+                    {
+                        await using SqlDataReader reader = command.ExecuteReader();
+                        return await ConvertToObj(reader);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<List<BO.Bids>> GetAllFromAuctionEventAsync(int auctionId, int eventId)
+        {
+            try
+            {
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("GetBidHistory", connection)
                     { CommandType = CommandType.StoredProcedure })
                     {
-                        command.Parameters.AddWithValue("@AuctionId", obj.AuctionId);
-                        command.Parameters.AddWithValue("@EventId", obj.EventId);
+                        command.Parameters.AddWithValue("@AuctionId", auctionId);
+                        command.Parameters.AddWithValue("@EventId", eventId);
 
                         await using SqlDataReader reader = command.ExecuteReader();
                         return await ConvertToObj(reader);
@@ -63,11 +90,11 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<BO.BidHistory> GetLatestUserBid(int userId, int auctionId, int eventId)
+        public async Task<BO.Bids> GetLatestUserBid(int userId, int auctionId, int eventId)
         {
             try
             {
-                await using (SqlConnection connection = await DbContext.GetConnection())
+                await using (SqlConnection connection = await _context.GetConnection())
                 {
                     await using (SqlCommand command = new SqlCommand("GetLatestUserBid", connection)
                         { CommandType = CommandType.StoredProcedure })
@@ -88,13 +115,13 @@ namespace Auction.DAL
             }
         }
 
-        public async Task<List<BO.BidHistory>> ConvertToObj(SqlDataReader reader)
+        public async Task<List<BO.Bids>> ConvertToObj(SqlDataReader reader)
         {
-            var objects = new List<BO.BidHistory>();
+            var objects = new List<BO.Bids>();
 
             while (await reader.ReadAsync())
             {
-                BO.BidHistory obj = new BO.BidHistory
+                BO.Bids obj = new BO.Bids
                 {
                     Id = int.Parse(reader["Id"].ToString()),
                     BidDate = DateTime.Parse(reader["BidDate"].ToString()),
