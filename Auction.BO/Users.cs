@@ -7,7 +7,7 @@ namespace Auction.BO
     {
         public Users()
         {
-            BidHistory = new HashSet<BidHistory>();
+            BidHistory = new HashSet<Bids>();
             Event = new HashSet<Event>();
             WithdrawHistory = new HashSet<WithdrawHistory>();
         }
@@ -19,11 +19,11 @@ namespace Auction.BO
         public string Name { get; set; }
         public DateTime Lud { get; set; }
         public int Lun { get; set; }
-        public DateTime? Dob { get; set; }
+        public DateTime? DoB { get; set; }
         public DateTime InD { get; set; }
 
         public virtual Roles Role { get; set; }
-        public virtual ICollection<BidHistory> BidHistory { get; set; }
+        public virtual ICollection<Bids> BidHistory { get; set; }
         public virtual ICollection<Event> Event { get; set; }
         public virtual ICollection<WithdrawHistory> WithdrawHistory { get; set; }
     }

@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jon\\source\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj": {}
+    "D:\\AppData\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jon\\source\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj": {
+    "D:\\AppData\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jon\\source\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj",
+        "projectUniqueName": "D:\\AppData\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj",
         "projectName": "Auction.BO",
-        "projectPath": "C:\\Users\\Jon\\source\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj",
+        "projectPath": "D:\\AppData\\repos\\jonAhmeti\\Auction.BO\\Auction.BO.csproj",
         "packagesPath": "C:\\Users\\Jon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jon\\source\\repos\\jonAhmeti\\Auction.BO\\obj\\",
+        "outputPath": "D:\\AppData\\repos\\jonAhmeti\\Auction.BO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Jon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -29,6 +30,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -40,6 +42,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -55,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
