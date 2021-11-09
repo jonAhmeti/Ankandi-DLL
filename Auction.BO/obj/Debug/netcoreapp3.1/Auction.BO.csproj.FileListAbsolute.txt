@@ -7,3 +7,13 @@ C:\Users\Jon\source\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.B
 C:\Users\Jon\source\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.dll
 C:\Users\Jon\source\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.pdb
 C:\Users\Jon\source\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.csprojAssemblyReference.cache
+D:\AppData\repos\jonAhmeti\Auction.BO\bin\Debug\netcoreapp3.1\Auction.BO.deps.json
+D:\AppData\repos\jonAhmeti\Auction.BO\bin\Debug\netcoreapp3.1\Auction.BO.dll
+D:\AppData\repos\jonAhmeti\Auction.BO\bin\Debug\netcoreapp3.1\Auction.BO.pdb
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.csproj.AssemblyReference.cache
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.GeneratedMSBuildEditorConfig.editorconfig
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.AssemblyInfoInputs.cache
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.AssemblyInfo.cs
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.csproj.CoreCompileInputs.cache
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.dll
+D:\AppData\repos\jonAhmeti\Auction.BO\obj\Debug\netcoreapp3.1\Auction.BO.pdb
