@@ -8,7 +8,7 @@ using Auction.DAL;
 
 namespace Auction.BLL
 {
-    public class Items : ICrud<BO.Item>
+    public class Items : ICrud<BO.Items>
     {
         private readonly DAL.Items _dalItems;
 
@@ -17,7 +17,7 @@ namespace Auction.BLL
             _dalItems = new DAL.Items(context);
         }
 
-        public async Task<bool> AddAsync(Item obj)
+        public async Task<bool> AddAsync(BO.Items obj)
         {
             return await _dalItems.AddAsync(obj);
         }
@@ -27,17 +27,17 @@ namespace Auction.BLL
             return await _dalItems.DeleteAsync(objId);
         }
 
-        public async Task<bool> UpdateAsync(Item obj)
+        public async Task<bool> UpdateAsync(BO.Items obj)
         {
             return await _dalItems.UpdateAsync(obj);
         }
 
-        public async Task<Item> GetAsync(int objId)
+        public async Task<BO.Items> GetAsync(int objId)
         {
             return await _dalItems.GetAsync(objId);
         }
 
-        public async Task<IEnumerable<Item>> GetAllAsync()
+        public async Task<IEnumerable<BO.Items>> GetAllAsync()
         {
             return await _dalItems.GetAllAsync();
         }

@@ -8,7 +8,7 @@ using Auction.DAL;
 
 namespace Auction.BLL
 {
-    public class Events : ICrud<BO.Event>
+    public class Events : ICrud<BO.Events>
     {
         private readonly DAL.Events _dalEvents;
 
@@ -16,7 +16,7 @@ namespace Auction.BLL
         {
             _dalEvents = new DAL.Events(context);
         }
-        public async Task<bool> AddAsync(Event obj)
+        public async Task<bool> AddAsync(BO.Events obj)
         {
             return await _dalEvents.AddAsync(obj);
         }
@@ -26,22 +26,22 @@ namespace Auction.BLL
             return await _dalEvents.DeleteAsync(objId);
         }
 
-        public async Task<bool> UpdateAsync(Event obj)
+        public async Task<bool> UpdateAsync(BO.Events obj)
         {
             return await _dalEvents.UpdateAsync(obj);
         }
 
-        public async Task<Event> GetAsync(int objId)
+        public async Task<BO.Events> GetAsync(int objId)
         {
             return await _dalEvents.GetAsync(objId);
         }
 
-        public async Task<IEnumerable<Event>> GetAllAsync()
+        public async Task<IEnumerable<BO.Events>> GetAllAsync()
         {
             return await _dalEvents.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Event>> GetAllByAuctionId(int objId)
+        public async Task<IEnumerable<BO.Events>> GetAllByAuctionId(int objId)
         {
             return await _dalEvents.GetAllByAuctionId(objId);
         }
